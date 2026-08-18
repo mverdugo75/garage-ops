@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garage Ops</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #14160f;
+    --card: #1c1f16;
+    --card-hi: #23271a;
+    --line: #ffffff10;
+    --chalk: #e8e6dc;
+    --dim: #8f9484;
+    --olive: #7a8450;
+    --tan: #c9a876;
+    --tan-dim: #c9a87622;
+    --rust: #a8562f;
+    --ok: #7cbf8f;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    background-image:
+      radial-gradient(circle at 10% 0%, #ffffff06 0%, transparent 45%),
+      repeating-linear-gradient(45deg, #ffffff02 0px, #ffffff02 1px, transparent 1px, transparent 18px);
+    color: var(--chalk);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+  header { padding: 26px 20px 16px; text-align: center; border-bottom: 1px solid var(--line); }
+  .kicker {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--tan);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  h1 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 40px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    margin: 6px 0 6px;
+    line-height: 0.95;
+    color: var(--chalk);
+    text-transform: uppercase;
+  }
+  .subline { color: var(--dim); font-size: 13px; font-weight: 500; }
+
+  nav.days {
+    display: flex;
+    overflow-x: auto;
+    gap: 8px;
+    padding: 16px 16px 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+  nav.days::-webkit-scrollbar { display: none; }
+  .day-btn {
+    flex: 0 0 auto;
+    background: var(--card);
+    border: 1px solid var(--line);
+    color: var(--dim);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 10px 16px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .day-btn.active { background: var(--olive); color: #14160f; border-color: var(--olive); }
+  .day-btn.conditioning.active { background: var(--rust); border-color: var(--rust); color: #14160f; }
+
+  main { padding: 8px 16px 24px; max-width: 640px; margin: 0 auto; }
+  .day-panel { display: none; }
+  .day-panel.active { display: block; animation: fadeIn 0.25s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px);} to { opacity: 1; transform: translateY(0);} }
+
+  .block { background: var(--card); border: 1px solid var(--line); border-radius: 4px; padding: 16px 16px 4px; margin-top: 14px; }
+  .block-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--tan);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .block-label.warmup { color: var(--olive); }
+  .block-label.stamina { color: var(--ok); }
+  .block-label.metcon { color: var(--rust); }
+
+  .exercise { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0 12px; border-bottom: 1px solid #ffffff0a; }
+  .exercise:last-child { border-bottom: none; }
+  .check {
+    width: 24px; height: 24px; border-radius: 4px;
+    border: 2px solid #6a6f5f;
+    background: #ffffff08;
+    flex-shrink: 0; margin-top: 2px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 800; color: transparent; cursor: pointer; transition: 0.15s;
+  }
+  .check.on { background: var(--ok); border-color: var(--ok); color: #14160f; }
+  .ex-body { flex: 1; }
+  .ex-name { font-weight: 700; font-size: 15px; }
+  .ex-name.done { text-decoration: line-through; color: var(--dim); }
+  .ex-scheme { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--dim); margin-top: 2px; }
+  .ex-note { font-size: 11.5px; color: #6a6f5f; margin-top: 3px; font-style: italic; }
+
+  .section-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px; font-weight: 700; letter-spacing: 1px;
+    margin: 28px 0 4px; padding: 0 16px; max-width: 640px; margin-left: auto; margin-right: auto;
+    text-transform: uppercase;
+  }
+  .note { font-size: 13px; color: var(--dim); line-height: 1.5; padding: 0 16px; max-width: 640px; margin: 8px auto 0; }
+  .note b { color: var(--chalk); }
+
+  #resetBtn {
+    margin-top: 14px; background: none; border: 1px solid var(--line); color: var(--dim);
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 1px;
+    padding: 6px 14px; border-radius: 20px; text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker">5-Day Functional Fitness</div>
+  <h1>GARAGE OPS</h1>
+  <div class="subline">Barbell · Trap Bar · Curl Bar · Pulley · Rack · DB 20/30</div>
+  <button id="resetBtn">Reset Checks</button>
+</header>
+
+<nav class="days" id="dayNav"></nav>
+<main id="dayContainer"></main>
+
+<div class="section-title">Progression</div>
+<main style="padding-top:0">
+  <div class="note">
+    <b>Squat, Deadlift, Bench, OHP:</b> add weight once you hit the top of the rep range on all sets, cleanly. These are the four numbers worth tracking closely.<br><br>
+    <b>Carries:</b> fixed 20/30 DBs mean load caps out fast — progress with distance instead once it feels controlled the whole way. Trap bar can still go heavier as grip and core adapt.<br><br>
+    <b>Conditioning day:</b> track rounds/time — more work in the same window over weeks is the goal, not just finishing.
+  </div>
+</main>
+
+<div class="section-title">Notes</div>
+<main style="padding-top:0">
+  <div class="note">
+    All four majors get a full dedicated day — real strength focus, not squeezed in as an accessory. Trap bar and the pulley carry the functional-pattern work (carries, rotation, anti-rotation) that a straight strength split skips.
+  </div>
+</main>
+
+<script>
+const data = {
+  squat: {
+    label: 'Squat',
+    blocks: [
+      { type: 'warmup', title: 'Warm-Up', items: [['2 Sets',''],['Bodyweight Squats','10 reps'],['Arm Circles','8 each direction'],['Deep Squat Hold','30 sec']]},
+      { type: 'strength', title: 'Strength', items: [['Barbell Back Squat', '4 x 6-8 · 2-3 RIR · Rest 2-3 min']]},
+      { type: 'accessory', title: 'Accessory', items: [
+        ['Walking Lunge / Bulgarian Split Squat', '3 x 8-10/leg · Rest 90s'],
+        ['Trap Bar Farmer Carry', '4 x 40 yd · Rest 90s'],
+        ['Cable Pallof Press', 'Bottom Mount + Rope · 3 x 10-12/side'],
+      ]},
+      { type: 'stamina', title: 'Stamina', items: [['Jump Rope', '10 min · 30s on / 30s off']]},
+    ]
+  },
+  deadlift: {
+    label: 'Deadlift',
+    blocks: [
+      { type: 'warmup', title: 'Warm-Up', items: [['2 Sets',''],['Glute Bridges','10 reps'],['Cable Face Pulls', 'Top Mount + Rope · light'],['Dead Hang','30 sec']]},
+      { type: 'strength', title: 'Strength', items: [['Barbell Deadlift', '4 x 5 · 2-3 RIR · Rest 2-3 min']]},
+      { type: 'accessory', title: 'Accessory', items: [
+        ['Pull-Ups or Lat Pulldown', 'Top Mount + Pulldown Attach · 4 x 6-10 · Rest 2 min'],
+        ['Single-Arm DB Row (30)', '3 x 10-12/side · Rest 90s'],
+        ['Suitcase Carry (single DB, 30)', '3 x 40 yd/side · Rest 90s'],
+      ]},
+      { type: 'stamina', title: 'Stamina', items: [['Jump Rope or Sprints', '10 min · 30s on / 30s off']]},
+    ]
+  },
+  bench: {
+    label: 'Bench',
+    blocks: [
+      { type: 'warmup', title: 'Warm-Up', items: [['2 Sets',''],['Arm Circles','8 each direction'],['Scapular Push-Ups','10 reps'],['DB Pass-Arounds','5 reps']]},
+      { type: 'strength', title: 'Strength', items: [['Barbell Bench Press', '4 x 6-8 · 2-3 RIR · Rest 2-3 min']]},
+      { type: 'accessory', title: 'Accessory', items: [
+        ['DB Incline Press', '3 x 8-10 · Rest 90s'],
+        ['Cable Woodchop', 'Rope · alternate Top/Bottom Mount · 3 x 10/side'],
+        ['EZ Curl Bar Skull Crusher', '3 x 10-12 · Rest 60s'],
+      ]},
+      { type: 'stamina', title: 'Stamina', items: [['Jump Rope', '10 min · 30s on / 30s off']]},
+    ]
+  },
+  ohp: {
+    label: 'OHP',
+    blocks: [
+      { type: 'warmup', title: 'Warm-Up', items: [['2 Sets',''],['Arm Circles','8 each direction'],['Standing Torso Twists','10 reps'],['Deep Squat Hold','30 sec']]},
+      { type: 'strength', title: 'Strength', items: [['Standing Barbell OHP', '4 x 6-8 · 2-3 RIR · Rest 2-3 min']]},
+      { type: 'accessory', title: 'Accessory', items: [
+        ['DB Push Press (20s)', '3 x 8 · Rest 90s'],
+        ['Trap Bar Carry', '3 x 40 yd · Rest 90s'],
+        ['Cable Face Pull', 'Top Mount + Rope · 3 x 15'],
+      ]},
+      { type: 'stamina', title: 'Stamina', items: [['Jump Rope', '10 min · 30s on / 30s off']]},
+    ]
+  },
+  conditioning: {
+    label: 'Conditioning',
+    conditioning: true,
+    blocks: [
+      { type: 'warmup', title: 'Warm-Up', items: [['2 Sets',''],['Bodyweight Squats','10 reps'],['Push-Ups','10 reps'],['Jumping Jacks','20 sec']]},
+      { type: 'metcon', title: '20 Min AMRAP', items: [
+        ['DB Thrusters (20s)', '10 reps'],
+        ['DB Goblet Squat (single 30)', '10 reps'],
+        ['Push-Ups', '10 reps'],
+        ['Jump Rope', '30 sec'],
+      ]},
+      { type: 'accessory', title: 'Accessory', items: [
+        ['DB Turkish Get-Up (single 20)', '3 x 3-5/side · Rest 90s · slow and controlled'],
+      ]},
+      { type: 'stamina', title: 'Stamina', items: [['Easy Walk', '5 min · cool down']]},
+    ]
+  }
+};
+
+const dayOrder = ['squat', 'deadlift', 'bench', 'ohp', 'conditioning'];
+const nav = document.getElementById('dayNav');
+const container = document.getElementById('dayContainer');
+const checkState = {};
+const STORAGE_KEY = 'garage-ops-checks';
+
+async function loadState() {
+  try {
+    const result = await window.storage.get(STORAGE_KEY);
+    if (result && result.value) Object.assign(checkState, JSON.parse(result.value));
+  } catch (e) {}
+}
+async function saveState() {
+  try { await window.storage.set(STORAGE_KEY, JSON.stringify(checkState)); } catch (e) {}
+}
+async function resetAllChecks() {
+  Object.keys(checkState).forEach(k => delete checkState[k]);
+  await saveState();
+  renderDay(currentDayIdx);
+}
+
+let currentDayIdx = 0;
+
+function renderDay(idx) {
+  currentDayIdx = idx;
+  const dayId = dayOrder[idx];
+  const day = data[dayId];
+  container.innerHTML = '';
+
+  const panel = document.createElement('div');
+  panel.className = 'day-panel active';
+
+  day.blocks.forEach((block, bi) => {
+    const blockEl = document.createElement('div');
+    blockEl.className = 'block';
+    const label = document.createElement('div');
+    label.className = 'block-label ' + block.type;
+    label.textContent = block.title;
+    blockEl.appendChild(label);
+
+    block.items.forEach((item, ii) => {
+      const [name, scheme] = item;
+      const key = dayId + '-' + bi + '-' + ii;
+      const exEl = document.createElement('div');
+      exEl.className = 'exercise';
+
+      const check = document.createElement('div');
+      check.className = 'check' + (checkState[key] ? ' on' : '');
+      check.textContent = '✓';
+
+      const body = document.createElement('div');
+      body.className = 'ex-body';
+      const nameEl = document.createElement('div');
+      nameEl.className = 'ex-name' + (checkState[key] ? ' done' : '');
+      nameEl.textContent = name;
+      body.appendChild(nameEl);
+      if (scheme) {
+        const schemeEl = document.createElement('div');
+        schemeEl.className = 'ex-scheme';
+        schemeEl.textContent = scheme;
+        body.appendChild(schemeEl);
+      }
+
+      check.onclick = () => {
+        checkState[key] = !checkState[key];
+        check.classList.toggle('on', checkState[key]);
+        nameEl.classList.toggle('done', checkState[key]);
+        saveState();
+      };
+
+      exEl.appendChild(check);
+      exEl.appendChild(body);
+      blockEl.appendChild(exEl);
+    });
+    panel.appendChild(blockEl);
+  });
+
+  container.appendChild(panel);
+}
+
+async function init() {
+  await loadState();
+
+  dayOrder.forEach((dayId, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'day-btn' + (i === 0 ? ' active' : '') + (data[dayId].conditioning ? ' conditioning' : '');
+    btn.textContent = data[dayId].label;
+    btn.onclick = () => {
+      document.querySelectorAll('.day-btn').forEach((b, idx) => b.classList.toggle('active', idx === i));
+      renderDay(i);
+    };
+    nav.appendChild(btn);
+  });
+
+  renderDay(0);
+  document.getElementById('resetBtn').onclick = resetAllChecks;
+}
+
+init();
+</script>
+
+</body>
+</html>

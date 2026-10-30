@@ -1,256 +1,582 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Becoming Chad: Hybrid Protocol</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <title>GARAGE OPS | Hybrid Strength & Aerobic Engine</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            tactical: {
+              bg: '#121212',
+              card: '#1e1e1e',
+              elevated: '#282828',
+              border: '#333333',
+              accent: '#ff4500',
+              accentHover: '#e03e00',
+              muted: '#888888',
+              text: '#e0e0e0'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
   <style>
-    :root {
-      --bg: #121212;
-      --card-bg: #1e1e1e;
-      --text: #e0e0e0;
-      --text-dim: #999;
-      --accent: #ff4500;
-      --border: #333;
-    }
     body {
-      font-family: 'Inter', sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
-      margin: 0;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      background-color: #121212;
+      color: #e0e0e0;
     }
-    header {
-      text-align: center;
-      margin-bottom: 30px;
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
     }
-    header div:first-child {
-      color: var(--accent);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      font-size: 0.85rem;
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #1e1e1e;
     }
-    h1 {
-      font-size: 2.5rem;
-      font-weight: 800;
-      margin: 5px 0;
-      letter-spacing: -1px;
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #333;
+      border-radius: 3px;
     }
-    header div:last-child {
-      color: var(--text-dim);
-      font-size: 0.9rem;
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #ff4500;
     }
-    .container {
-      width: 100%;
-      max-width: 750px;
-    }
-    .card {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-    h2 {
-      font-size: 1.2rem;
-      border-bottom: 2px solid var(--accent);
-      padding-bottom: 8px;
-      margin-top: 0;
-    }
-    .wave-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 10px;
-      margin-top: 15px;
-    }
-    .wave-box {
-      background: #252525;
-      padding: 12px;
-      border-radius: 6px;
-      text-align: center;
-      border: 1px solid #3a3a3a;
-    }
-    .wave-box span {
-      display: block;
-    }
-    .wave-box span:first-child {
-      font-weight: 800;
-      color: var(--accent);
-      font-size: 0.8rem;
-    }
-    .wave-box span:nth-child(2) {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin: 4px 0;
-    }
-    .wave-box span:last-child {
-      font-size: 0.75rem;
-      color: var(--text-dim);
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
-    th, td {
-      padding: 12px 10px;
-      text-align: left;
-      border-bottom: 1px solid var(--border);
-      font-size: 0.9rem;
-    }
-    th {
-      color: var(--accent);
-      font-weight: 600;
-    }
-    .tag {
-      display: inline-block;
-      background: #2a2a2a;
-      border: 1px solid #444;
-      border-radius: 4px;
-      padding: 2px 6px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: #ff9d00;
-      margin-top: 4px;
-    }
-    .gear-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 12px;
-      margin-top: 15px;
-    }
-    .gear-item {
-      background: #252525;
-      border-left: 3px solid var(--accent);
-      padding: 12px;
-      border-radius: 0 6px 6px 0;
-    }
-    .gear-item h3 {
-      margin: 0 0 5px 0;
-      font-size: 0.95rem;
-      color: #fff;
-    }
-    .gear-item p {
-      margin: 0;
-      font-size: 0.825rem;
-      color: var(--text-dim);
-      line-height: 1.4;
-    }
-    .note {
-      font-size: 0.85rem;
-      color: var(--text-dim);
-      margin-top: 10px;
-      font-style: italic;
+    .tab-btn.active {
+      background-color: #ff4500;
+      color: #ffffff;
+      border-color: #ff4500;
     }
   </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col font-sans antialiased bg-tactical-bg text-tactical-text selection:bg-tactical-accent selection:text-white custom-scrollbar">
 
-  <div class="container">
-    <header>
-      <div>5-Day Hybrid Split · Barbell &amp; Outdoor Gear</div>
-      <h1>BECOMING CHAD: HYBRID</h1>
-      <div>Strength Wave + Aerobic RHR Conditioning</div>
+  <!-- Main Container -->
+  <div class="max-w-5xl w-full mx-auto px-4 py-6 sm:px-6 lg:px-8 flex-1 flex flex-col">
+
+    <!-- Header Section -->
+    <header class="border-b border-tactical-border pb-6 mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2 mb-1.5">
+          <span class="inline-block w-2.5 h-2.5 rounded-full bg-tactical-accent animate-pulse"></span>
+          <span class="text-xs font-mono tracking-widest text-tactical-accent uppercase font-bold">TACTICAL HYBRID PROTOCOL</span>
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-black tracking-tight text-white uppercase font-mono">
+          GARAGE <span class="text-tactical-accent">OPS</span>
+        </h1>
+        <p class="text-xs sm:text-sm text-tactical-muted mt-1.5 max-w-xl font-medium">
+          5-Day Hybrid Split · Barbell, Outdoor Gear & Aerobic RHR Engine
+        </p>
+      </div>
+
+      <!-- Quick Control Actions -->
+      <div class="flex items-center gap-2">
+        <button id="reset-all-btn" class="px-3.5 py-2 bg-tactical-elevated hover:bg-tactical-border text-xs font-mono text-gray-300 rounded-lg border border-tactical-border transition-all duration-200 flex items-center gap-2">
+          <svg class="w-3.5 h-3.5 text-tactical-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+          Reset Logs
+        </button>
+      </div>
     </header>
 
-    <!-- The Wave Protocol -->
-    <div class="card">
-      <h2>The 4-Week Strength Wave</h2>
-      <p class="note">Same 4-week wave drives the primary lift on strength days. Reps drop, weight climbs, then it deloads and resets 5–10 lb heavier.</p>
-      <div class="wave-grid">
-        <div class="wave-box">
-          <span>WEEK 1</span>
-          <span>12 · 10 · 8 · 6</span>
-          <span>3 RIR</span>
+    <!-- Navigation Tabs -->
+    <nav class="flex flex-wrap gap-2 mb-6 border-b border-tactical-border/60 pb-4" id="main-nav">
+      <button data-tab="schedule" class="tab-btn active px-4 py-2.5 rounded-lg text-xs sm:text-sm font-bold font-mono tracking-wide transition-all duration-200 flex items-center gap-2 border bg-tactical-elevated border-tactical-border text-gray-400">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+        SCHEDULE & TRACKER
+      </button>
+
+      <button data-tab="calculator" class="tab-btn px-4 py-2.5 rounded-lg text-xs sm:text-sm font-bold font-mono tracking-wide transition-all duration-200 flex items-center gap-2 border bg-tactical-elevated border-tactical-border text-gray-400 hover:text-white">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+        WAVE CALCULATOR
+      </button>
+
+      <button data-tab="hr-calc" class="tab-btn px-4 py-2.5 rounded-lg text-xs sm:text-sm font-bold font-mono tracking-wide transition-all duration-200 flex items-center gap-2 border bg-tactical-elevated border-tactical-border text-gray-400 hover:text-white">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-1.724-7.675 4.5 4.5 0 00-5.958 1.418l-.001.002a4.5 4.5 0 00-5.958-1.418z"></path></svg>
+        ZONE 2 HR ENGINE
+      </button>
+
+      <button data-tab="gear" class="tab-btn px-4 py-2.5 rounded-lg text-xs sm:text-sm font-bold font-mono tracking-wide transition-all duration-200 flex items-center gap-2 border bg-tactical-elevated border-tactical-border text-gray-400 hover:text-white">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+        TACTICAL GEAR GUIDE
+      </button>
+    </nav>
+
+    <!-- TAB 1: SCHEDULE & TRACKER -->
+    <div id="tab-schedule" class="tab-content space-y-6">
+      
+      <!-- Wave Protocol Quick Summary -->
+      <div class="bg-tactical-card border border-tactical-border rounded-xl p-5 shadow-lg">
+        <div class="flex items-center justify-between mb-3 border-b border-tactical-border pb-3">
+          <h2 class="text-sm font-extrabold text-white uppercase font-mono flex items-center gap-2">
+            <span class="text-tactical-accent">//</span> 4-WEEK WAVE STRUCTURE
+          </h2>
+          <span class="text-[11px] text-tactical-muted font-mono">CYCLE RESET @ +5–10 LBS</span>
         </div>
-        <div class="wave-box">
-          <span>WEEK 2</span>
-          <span>10 · 8 · 6 · 4</span>
-          <span>2 RIR</span>
-        </div>
-        <div class="wave-box">
-          <span>WEEK 3</span>
-          <span>8 · 6 · 4 · 2</span>
-          <span>1 RIR</span>
-        </div>
-        <div class="wave-box">
-          <span>DELOAD</span>
-          <span>4 × 4–6</span>
-          <span>50–60% Wk 3</span>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div class="bg-tactical-elevated border border-tactical-border rounded-lg p-3 text-center">
+            <span class="text-[10px] font-bold text-tactical-accent block font-mono">WEEK 1</span>
+            <span class="text-base font-extrabold text-white">12 · 10 · 8 · 6</span>
+            <span class="text-[10px] text-tactical-muted block mt-0.5">3 RIR (Calibration)</span>
+          </div>
+          <div class="bg-tactical-elevated border border-tactical-border rounded-lg p-3 text-center">
+            <span class="text-[10px] font-bold text-tactical-accent block font-mono">WEEK 2</span>
+            <span class="text-base font-extrabold text-white">10 · 8 · 6 · 4</span>
+            <span class="text-[10px] text-tactical-muted block mt-0.5">2 RIR (Building)</span>
+          </div>
+          <div class="bg-tactical-elevated border border-tactical-border rounded-lg p-3 text-center">
+            <span class="text-[10px] font-bold text-tactical-accent block font-mono">WEEK 3</span>
+            <span class="text-base font-extrabold text-white">8 · 6 · 4 · 2</span>
+            <span class="text-[10px] text-tactical-muted block mt-0.5">1 RIR (Peak Wave)</span>
+          </div>
+          <div class="bg-tactical-elevated border border-tactical-border rounded-lg p-3 text-center">
+            <span class="text-[10px] font-bold text-emerald-400 block font-mono">DELOAD</span>
+            <span class="text-base font-extrabold text-white">4 × 4–6</span>
+            <span class="text-[10px] text-tactical-muted block mt-0.5">50–60% Week 3</span>
+          </div>
         </div>
       </div>
-      <p class="note" style="text-align: center; margin-top: 15px;">↺ Week 5 restarts the wave, 5–10 lb heavier than Week 1</p>
+
+      <!-- Days Cards -->
+      <div class="space-y-4" id="days-container">
+        <!-- Generated Dynamically via JavaScript -->
+      </div>
     </div>
 
-    <!-- The 5-Day Schedule -->
-    <div class="card">
-      <h2>Weekly Schedule &amp; Gear Deployment</h2>
-      <table>
-        <tbody>
-          <tr>
-            <th>Day</th>
-            <th>Focus</th>
-            <th>Protocol</th>
-          </tr>
-          <tr>
-            <td><strong>Day 1</strong></td>
-            <td>Upper Body Strength</td>
-            <td>Bench Press &amp; Barbell Row Wave<br><span class="tag">BARBELL / RACK</span></td>
-          </tr>
-          <tr>
-            <td><strong>Day 2</strong></td>
-            <td>Zone 2 Aerobic Base</td>
-            <td>40–50 min Stroller Run/Walk @ 60–70% Max HR<br><span class="tag">JOGGING STROLLER</span></td>
-          </tr>
-          <tr>
-            <td><strong>Day 3</strong></td>
-            <td>Lower Body Strength</td>
-            <td>Back Squat &amp; RDL Wave *(Keep legs fresh)*<br><span class="tag">BARBELL / RACK</span></td>
-          </tr>
-          <tr>
-            <td><strong>Day 4</strong></td>
-            <td>Zone 2 Aerobic Base</td>
-            <td>45 min Steady Track Loops or Outdoor Route<br><span class="tag">JOGGING STROLLER / RUN</span></td>
-          </tr>
-          <tr>
-            <td><strong>Day 5</strong></td>
-            <td>Full Body Strength</td>
-            <td>Overhead Press &amp; Deadlift Wave + Bodyweight Finisher<br><span class="tag">BARBELL / VEST</span></td>
-          </tr>
-          <tr>
-            <td><strong>Weekend</strong></td>
-            <td>Active Recovery</td>
-            <td>45–60 min Steady Hike/Walk with moderate load<br><span class="tag">RUCK</span></td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- TAB 2: WAVE CALCULATOR -->
+    <div id="tab-calculator" class="tab-content hidden space-y-6">
+      <div class="bg-tactical-card border border-tactical-border rounded-xl p-6 shadow-lg">
+        <h2 class="text-base font-extrabold text-white uppercase font-mono mb-1 flex items-center gap-2">
+          <span class="text-tactical-accent">//</span> WAVE LOADING TARGET CALCULATOR
+        </h2>
+        <p class="text-xs text-tactical-muted mb-6">Enter your 1-Rep Max or working heavy baseline weight to calculate wave targets for each lift block.</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+          <div>
+            <label class="block text-xs font-mono font-bold text-gray-300 uppercase mb-2">Primary Exercise</label>
+            <select id="calc-exercise" class="w-full bg-tactical-elevated border border-tactical-border rounded-lg px-3 py-2.5 text-sm text-white font-medium focus:outline-none focus:border-tactical-accent">
+              <option value="Bench Press">Bench Press</option>
+              <option value="Back Squat">Back Squat</option>
+              <option value="Deadlift">Deadlift</option>
+              <option value="Overhead Press">Overhead Press</option>
+              <option value="Barbell Row">Barbell Row</option>
+              <option value="Romanian Deadlift">Romanian Deadlift</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-mono font-bold text-gray-300 uppercase mb-2">1RM or Top Single (LBS)</label>
+            <input type="number" id="calc-1rm" value="225" step="5" class="w-full bg-tactical-elevated border border-tactical-border rounded-lg px-3 py-2.5 text-sm text-white font-mono font-bold focus:outline-none focus:border-tactical-accent">
+          </div>
+
+          <div>
+            <label class="block text-xs font-mono font-bold text-gray-300 uppercase mb-2">Plate Rounding</label>
+            <select id="calc-round" class="w-full bg-tactical-elevated border border-tactical-border rounded-lg px-3 py-2.5 text-sm text-white font-medium focus:outline-none focus:border-tactical-accent">
+              <option value="5">Nearest 5 lbs</option>
+              <option value="2.5">Nearest 2.5 lbs</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Calculated Output Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse font-mono text-xs sm:text-sm">
+            <thead>
+              <tr class="border-b border-tactical-border text-tactical-accent text-xs">
+                <th class="py-3 px-3">WEEK</th>
+                <th class="py-3 px-3">SETS & REPS</th>
+                <th class="py-3 px-3">INTENSITY (EST)</th>
+                <th class="py-3 px-3 text-right">TARGET WEIGHT</th>
+              </tr>
+            </thead>
+            <tbody id="wave-calc-rows" class="divide-y divide-tactical-border/60">
+              <!-- JS Injected -->
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
-    <!-- Gear Deployment Rules -->
-    <div class="card">
-      <h2>Gear Guidelines</h2>
-      <div class="gear-grid">
-        <div class="gear-item">
-          <h3>Jogging Stroller</h3>
-          <p>Primary tool for Zone 2 days. The added rolling resistance keeps your HR elevated while pacing remains conversational.</p>
+    <!-- TAB 3: ZONE 2 HR ENGINE -->
+    <div id="tab-hr-calc" class="tab-content hidden space-y-6">
+      <div class="bg-tactical-card border border-tactical-border rounded-xl p-6 shadow-lg">
+        <h2 class="text-base font-extrabold text-white uppercase font-mono mb-1 flex items-center gap-2">
+          <span class="text-tactical-accent">//</span> ZONE 2 AEROBIC HR CALCULATOR
+        </h2>
+        <p class="text-xs text-tactical-muted mb-6">Lowering resting heart rate (RHR) requires staying strictly in Zone 2 to trigger ventricular stroke volume hypertrophy.</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+          <div>
+            <label class="block text-xs font-mono font-bold text-gray-300 uppercase mb-2">Athlete Age</label>
+            <input type="number" id="hr-age" value="32" min="15" max="80" class="w-full bg-tactical-elevated border border-tactical-border rounded-lg px-3 py-2.5 text-sm text-white font-mono font-bold focus:outline-none focus:border-tactical-accent">
+          </div>
+          <div>
+            <label class="block text-xs font-mono font-bold text-gray-300 uppercase mb-2">Resting Heart Rate (BPM)</label>
+            <input type="number" id="hr-rhr" value="70" min="35" max="110" class="w-full bg-tactical-elevated border border-tactical-border rounded-lg px-3 py-2.5 text-sm text-white font-mono font-bold focus:outline-none focus:border-tactical-accent">
+          </div>
         </div>
-        <div class="gear-item">
-          <h3>Ruck</h3>
-          <p>Reserved for weekend active recovery walks or light post-lift walks. Builds work capacity without joint impact.</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="bg-tactical-elevated border border-tactical-border p-5 rounded-xl text-center">
+            <span class="text-xs font-mono font-bold text-tactical-muted block uppercase mb-1">Standard 60–70% Max HR</span>
+            <div id="hr-standard-range" class="text-3xl font-black text-tactical-accent font-mono py-2">-- BPM</div>
+            <p class="text-[11px] text-gray-400">Based purely on standard formula (220 - Age)</p>
+          </div>
+
+          <div class="bg-tactical-elevated border border-tactical-border p-5 rounded-xl text-center">
+            <span class="text-xs font-mono font-bold text-tactical-muted block uppercase mb-1">Karvonen Formula Target</span>
+            <div id="hr-karvonen-range" class="text-3xl font-black text-blue-400 font-mono py-2">-- BPM</div>
+            <p class="text-[11px] text-gray-400">Adjusted specifically for your current Resting Heart Rate</p>
+          </div>
         </div>
-        <div class="gear-item">
-          <h3>Weighted Vest</h3>
-          <p>Best used for push-ups, pull-ups, or calisthenics finishers on upper body days. Avoid wearing on heavy squat days.</p>
+
+        <div class="mt-6 bg-tactical-elevated/60 border border-tactical-border rounded-lg p-4 text-xs text-tactical-muted space-y-2">
+          <p class="font-bold text-white uppercase font-mono flex items-center gap-1.5">
+            <span class="text-amber-400">⚠</span> OPERATIONAL CHECK:
+          </p>
+          <p class="leading-relaxed">
+            During stroller runs and outdoor loops, if you cannot hold a continuous conversation or breathe exclusively through your nose, drop your pace to a walk immediately until BPM stabilizes.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: TACTICAL GEAR GUIDE -->
+    <div id="tab-gear" class="tab-content hidden space-y-6">
+      <div class="bg-tactical-card border border-tactical-border rounded-xl p-6 shadow-lg">
+        <h2 class="text-base font-extrabold text-white uppercase font-mono mb-1 flex items-center gap-2">
+          <span class="text-tactical-accent">//</span> GEAR DEPLOYMENT PROTOCOLS
+        </h2>
+        <p class="text-xs text-tactical-muted mb-6">How to integrate your specific equipment into the 5-day cycle without draining lower back or knee recovery.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-tactical-elevated border border-tactical-border rounded-xl p-5 border-t-4 border-t-amber-500">
+            <span class="text-amber-500 font-mono font-bold text-[10px] uppercase tracking-wider block mb-1">[PRIMARY RHR ENGINE]</span>
+            <h3 class="text-base font-extrabold text-white mb-2">Jogging Stroller</h3>
+            <p class="text-xs text-gray-300 leading-relaxed mb-4">
+              Provides constant mild rolling resistance. Elevates cardiac output to Zone 2 targets at lower speed, protecting knee joint health while building aerobic stroke volume.
+            </p>
+            <span class="text-[11px] font-mono text-amber-400 bg-amber-500/10 border border-amber-500/30 px-2.5 py-1 rounded block text-center font-bold">Deploy Days 2 & 4</span>
+          </div>
+
+          <div class="bg-tactical-elevated border border-tactical-border rounded-xl p-5 border-t-4 border-t-emerald-500">
+            <span class="text-emerald-400 font-mono font-bold text-[10px] uppercase tracking-wider block mb-1">[ACTIVE RECOVERY]</span>
+            <h3 class="text-base font-extrabold text-white mb-2">Ruck (20–30 lbs)</h3>
+            <p class="text-xs text-gray-300 leading-relaxed mb-4">
+              Builds upper back posture and zone 1/2 endurance without eccentric leg pounding. Perfect for active recovery on non-barbell days.
+            </p>
+            <span class="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-1 rounded block text-center font-bold">Deploy Weekend Hike</span>
+          </div>
+
+          <div class="bg-tactical-elevated border border-tactical-border rounded-xl p-5 border-t-4 border-t-tactical-accent">
+            <span class="text-tactical-accent font-mono font-bold text-[10px] uppercase tracking-wider block mb-1">[HYPERTROPHY FINISHER]</span>
+            <h3 class="text-base font-extrabold text-white mb-2">Weighted Vest</h3>
+            <p class="text-xs text-gray-300 leading-relaxed mb-4">
+              Adds load directly to calisthenics (push-ups, pull-ups, ring dips). <span class="text-white font-bold">Rule:</span> Never wear during heavy squat/RDL days to protect axial spinal loading.
+            </p>
+            <span class="text-[11px] font-mono text-tactical-accent bg-tactical-accent/10 border border-tactical-accent/30 px-2.5 py-1 rounded block text-center font-bold">Deploy Day 5 Finisher</span>
+          </div>
         </div>
       </div>
     </div>
 
   </div>
 
+  <!-- Footer -->
+  <footer class="mt-auto border-t border-tactical-border py-4 text-center text-xs text-tactical-muted font-mono">
+    GARAGE OPS // HIGH PERFORMANCE HYBRID SYSTEM
+  </footer>
+
+  <!-- Main JavaScript Engine -->
+  <script>
+    const SCHEDULE_DATA = [
+      {
+        id: "day1",
+        dayNum: "DAY 1",
+        title: "Upper Body Strength Wave",
+        type: "BARBELL / RACK",
+        typeColor: "bg-zinc-800 text-zinc-300 border-zinc-700",
+        borderAccent: "border-tactical-accent/50",
+        badgeColor: "bg-tactical-accent/20 text-tactical-accent border-tactical-accent/40",
+        exercises: [
+          { name: "Bench Press", details: "Primary Wave (Wk 1: 12-10-8-6 | Wk 2: 10-8-6-4 | Wk 3: 8-6-4-2)" },
+          { name: "Barbell Bent-Over Row", details: "4 sets × 8–10 reps" },
+          { name: "Incline DB Press", details: "3 sets × 10–12 reps" },
+          { name: "Face Pulls / Rear Delt Flyes", details: "3 sets × 15 reps" },
+          { name: "Ab Wheel Rollouts", details: "3 sets × 12 reps" }
+        ]
+      },
+      {
+        id: "day2",
+        dayNum: "DAY 2",
+        title: "Zone 2 Aerobic Base (RHR Engine)",
+        type: "JOGGING STROLLER",
+        typeColor: "bg-amber-500/10 text-amber-400 border-amber-500/30",
+        borderAccent: "border-blue-500/50",
+        badgeColor: "bg-blue-500/20 text-blue-400 border-blue-500/40",
+        exercises: [
+          { name: "40–50 Min Stroller Outdoor Session", details: "Maintain strictly 60–70% Max HR (Conversational / Nasal pace)" },
+          { name: "Post-Run Mobility", details: "Calf stretches, couch stretch, ankle mobility (5 min)" }
+        ]
+      },
+      {
+        id: "day3",
+        dayNum: "DAY 3",
+        title: "Lower Body Strength Wave",
+        type: "BARBELL / RACK",
+        typeColor: "bg-zinc-800 text-zinc-300 border-zinc-700",
+        borderAccent: "border-tactical-accent/50",
+        badgeColor: "bg-tactical-accent/20 text-tactical-accent border-tactical-accent/40",
+        exercises: [
+          { name: "Back Squat", details: "Primary Wave (Wk 1: 12-10-8-6 | Wk 2: 10-8-6-4 | Wk 3: 8-6-4-2)" },
+          { name: "Romanian Deadlift (RDL)", details: "4 sets × 8–10 reps" },
+          { name: "Walking DB Lunges", details: "3 sets × 12 reps / leg" },
+          { name: "Standing Calf Raises", details: "4 sets × 15 reps" },
+          { name: "Hanging Leg Raises", details: "3 sets × 12–15 reps" }
+        ]
+      },
+      {
+        id: "day4",
+        dayNum: "DAY 4",
+        title: "Zone 2 Aerobic Track / Outdoor",
+        type: "STROLLER / RUN",
+        typeColor: "bg-amber-500/10 text-amber-400 border-amber-500/30",
+        borderAccent: "border-blue-500/50",
+        badgeColor: "bg-blue-500/20 text-blue-400 border-blue-500/40",
+        exercises: [
+          { name: "45 Min Continuous Zone 2 Session", details: "Track loops or outdoor flat route. Walk if HR spikes above target." }
+        ]
+      },
+      {
+        id: "day5",
+        dayNum: "DAY 5",
+        title: "Full Body & Overhead Power Wave",
+        type: "BARBELL / VEST",
+        typeColor: "bg-zinc-800 text-zinc-300 border-zinc-700",
+        borderAccent: "border-tactical-accent/50",
+        badgeColor: "bg-tactical-accent/20 text-tactical-accent border-tactical-accent/40",
+        exercises: [
+          { name: "Overhead Press (OHP)", details: "Primary Wave (Wk 1: 12-10-8-6 | Wk 2: 10-8-6-4 | Wk 3: 8-6-4-2)" },
+          { name: "Conventional Deadlift", details: "Wave Pattern or 3 sets × 5 heavy reps" },
+          { name: "Weighted Vest Finisher", details: "3 rounds: 10 Push-ups, 5 Pull-ups, 15 Air Squats with Vest" }
+        ]
+      },
+      {
+        id: "weekend",
+        dayNum: "WEEKEND",
+        title: "Active Recovery Ruck Walk",
+        type: "RUCK (20-30 LB)",
+        typeColor: "bg-emerald-500/10 text-emerald-400 border-emerald-500/30",
+        borderAccent: "border-emerald-500/50",
+        badgeColor: "bg-emerald-500/20 text-emerald-400 border-emerald-500/40",
+        exercises: [
+          { name: "45–60 Min Ruck Walk", details: "Steady pace walk with 20–30 lbs. Focus on posture and breathing." }
+        ]
+      }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+      // 1. Render Schedule Items
+      const container = document.getElementById('days-container');
+
+      const renderSchedule = () => {
+        container.innerHTML = '';
+        SCHEDULE_DATA.forEach(day => {
+          const card = document.createElement('div');
+          card.className = `day-card bg-tactical-card border border-tactical-border rounded-xl p-5 transition-all duration-200`;
+          card.id = `card-${day.id}`;
+
+          let exerciseRowsHTML = '';
+          day.exercises.forEach((ex, idx) => {
+            const exKey = `ex_${day.id}_${idx}`;
+            const isChecked = localStorage.getItem(exKey) === 'true';
+
+            exerciseRowsHTML += `
+              <label class="flex items-start gap-3 p-2 rounded hover:bg-tactical-elevated/40 cursor-pointer transition">
+                <input type="checkbox" data-exkey="${exKey}" ${isChecked ? 'checked' : ''} class="ex-check mt-1 w-4 h-4 rounded bg-tactical-elevated border-tactical-border text-tactical-accent focus:ring-0 focus:ring-offset-0 cursor-pointer">
+                <div>
+                  <span class="text-xs sm:text-sm font-semibold text-white block ${isChecked ? 'line-through text-gray-500' : ''}">${ex.name}</span>
+                  <span class="text-[11px] text-tactical-muted block">${ex.details}</span>
+                </div>
+              </label>
+            `;
+          });
+
+          const isDayDone = localStorage.getItem(`day_done_${day.id}`) === 'true';
+
+          card.innerHTML = `
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+              <div class="flex items-center gap-3">
+                <span class="px-2.5 py-1 border rounded font-mono font-bold text-xs ${day.badgeColor}">${day.dayNum}</span>
+                <h3 class="text-base font-bold text-white">${day.title}</h3>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 border rounded text-[11px] font-mono font-semibold ${day.typeColor}">${day.type}</span>
+                <label class="flex items-center gap-1.5 cursor-pointer ml-2 bg-tactical-elevated border border-tactical-border px-2.5 py-1 rounded">
+                  <input type="checkbox" data-dayid="${day.id}" ${isDayDone ? 'checked' : ''} class="day-done-check w-4 h-4 rounded bg-tactical-elevated border-tactical-border text-tactical-accent focus:ring-0 focus:ring-offset-0 cursor-pointer">
+                  <span class="text-[10px] font-mono text-gray-300 font-bold uppercase">DAY DONE</span>
+                </label>
+              </div>
+            </div>
+            <div class="space-y-1 pl-1 border-l-2 ${day.borderAccent}">
+              ${exerciseRowsHTML}
+            </div>
+          `;
+
+          container.appendChild(card);
+          updateCardOpacity(day.id);
+        });
+
+        // Attach event listeners for exercise checks
+        document.querySelectorAll('.ex-check').forEach(chk => {
+          chk.addEventListener('change', (e) => {
+            const key = e.target.dataset.exkey;
+            localStorage.setItem(key, e.target.checked);
+            const label = e.target.closest('label').querySelector('span');
+            if (e.target.checked) {
+              label.classList.add('line-through', 'text-gray-500');
+            } else {
+              label.classList.remove('line-through', 'text-gray-500');
+            }
+          });
+        });
+
+        // Attach event listeners for day-done checks
+        document.querySelectorAll('.day-done-check').forEach(chk => {
+          chk.addEventListener('change', (e) => {
+            const dayId = e.target.dataset.dayid;
+            localStorage.setItem(`day_done_${dayId}`, e.target.checked);
+            updateCardOpacity(dayId);
+          });
+        });
+      };
+
+      const updateCardOpacity = (dayId) => {
+        const card = document.getElementById(`card-${dayId}`);
+        const isDone = localStorage.getItem(`day_done_${dayId}`) === 'true';
+        if (card) {
+          if (isDone) {
+            card.classList.add('opacity-50');
+          } else {
+            card.classList.remove('opacity-50');
+          }
+        }
+      };
+
+      renderSchedule();
+
+      // Reset Button
+      document.getElementById('reset-all-btn').addEventListener('click', () => {
+        if (confirm("Reset all exercise logs and day completion states?")) {
+          Object.keys(localStorage).forEach(key => {
+            if (key.startsWith('ex_') || key.startsWith('day_done_')) {
+              localStorage.removeItem(key);
+            }
+          });
+          renderSchedule();
+        }
+      });
+
+      // 2. Tab Navigation
+      const tabs = document.querySelectorAll('.tab-btn');
+      const tabContents = document.querySelectorAll('.tab-content');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const target = tab.getAttribute('data-tab');
+
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+
+          tabContents.forEach(content => {
+            if (content.id === `tab-${target}`) {
+              content.classList.remove('hidden');
+            } else {
+              content.classList.add('hidden');
+            }
+          });
+        });
+      });
+
+      // 3. Wave Load Calculator Engine
+      const oneRmInput = document.getElementById('calc-1rm');
+      const roundSelect = document.getElementById('calc-round');
+      const waveRowsContainer = document.getElementById('wave-calc-rows');
+
+      const roundWeight = (weight, step) => {
+        const s = parseFloat(step);
+        return Math.round(weight / s) * s;
+      };
+
+      const calculateWaves = () => {
+        const rm = parseFloat(oneRmInput.value) || 0;
+        const step = roundSelect.value;
+
+        const waveData = [
+          { week: 'Week 1', reps: '12 · 10 · 8 · 6', pct: 0.70, rir: '3 RIR (Calibration)' },
+          { week: 'Week 2', reps: '10 · 8 · 6 · 4', pct: 0.775, rir: '2 RIR (Building)' },
+          { week: 'Week 3', reps: '8 · 6 · 4 · 2', pct: 0.85, rir: '1 RIR (Peak Target)' },
+          { week: 'Deload', reps: '4 sets × 5 reps', pct: 0.55, rir: 'Active Recovery' }
+        ];
+
+        waveRowsContainer.innerHTML = '';
+
+        waveData.forEach(item => {
+          const targetWeight = roundWeight(rm * item.pct, step);
+          const tr = document.createElement('tr');
+          tr.className = 'hover:bg-tactical-elevated/40 transition';
+          tr.innerHTML = `
+            <td class="py-3 px-3 font-bold text-white">${item.week}</td>
+            <td class="py-3 px-3 text-gray-300">${item.reps}</td>
+            <td class="py-3 px-3 text-tactical-muted">${Math.round(item.pct * 100)}% (${item.rir})</td>
+            <td class="py-3 px-3 text-right font-bold text-tactical-accent text-base">${targetWeight} LBS</td>
+          `;
+          waveRowsContainer.appendChild(tr);
+        });
+      };
+
+      oneRmInput.addEventListener('input', calculateWaves);
+      roundSelect.addEventListener('change', calculateWaves);
+      calculateWaves();
+
+      // 4. Heart Rate Calculator Engine
+      const ageInput = document.getElementById('hr-age');
+      const rhrInput = document.getElementById('hr-rhr');
+      const standardDisplay = document.getElementById('hr-standard-range');
+      const karvonenDisplay = document.getElementById('hr-karvonen-range');
+
+      const calculateHR = () => {
+        const age = parseInt(ageInput.value) || 30;
+        const rhr = parseInt(rhrInput.value) || 70;
+
+        const maxHR = 220 - age;
+
+        // Standard 60-70%
+        const stdLow = Math.round(maxHR * 0.60);
+        const stdHigh = Math.round(maxHR * 0.70);
+        standardDisplay.textContent = `${stdLow} - ${stdHigh} BPM`;
+
+        // Karvonen Formula
+        const hrr = maxHR - rhr;
+        const karvLow = Math.round((hrr * 0.60) + rhr);
+        const karvHigh = Math.round((hrr * 0.70) + rhr);
+        karvonenDisplay.textContent = `${karvLow} - ${karvHigh} BPM`;
+      };
+
+      ageInput.addEventListener('input', calculateHR);
+      rhrInput.addEventListener('input', calculateHR);
+      calculateHR();
+    });
+  </script>
 </body>
 </html>

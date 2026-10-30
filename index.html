@@ -603,7 +603,6 @@
       state.oneRMs.squat = parseFloat(document.getElementById('1rm-squat').value) || 0;
       state.oneRMs.deadlift = parseFloat(document.getElementById('1rm-deadlift').value) || 0;
       state.oneRMs.ohp = parseFloat(document.getElementById('1rm-ohp').value) || 0;
-      saveAndRecalculateNotes();
       saveState();
       renderWorkout();
     }
@@ -611,10 +610,6 @@
     function saveNote(val) {
       const noteKey = `w${state.currentWeek}_d${state.currentDay}_note`;
       state.notes[noteKey] = val;
-      saveState();
-    }
-
-    function saveAndRecalculateNotes() {
       saveState();
     }
 

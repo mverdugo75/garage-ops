@@ -138,12 +138,13 @@
       background: var(--input-bg);
       border: 1px solid var(--card-border);
       color: var(--text-dim);
-      padding: 10px;
+      padding: 10px 6px;
       border-radius: 8px;
       font-weight: 700;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       cursor: pointer;
       transition: all 0.2s;
+      text-align: center;
     }
 
     .week-btn.active {
@@ -357,6 +358,24 @@
       font-size: 0.85rem;
       line-height: 1.4;
     }
+
+    .notes-area {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      padding: 12px;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      resize: vertical;
+      min-height: 80px;
+      margin-top: 12px;
+    }
+    .notes-area:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
   </style>
 </head>
 <body>
@@ -382,7 +401,7 @@
       <div class="card">
         <h2>
           <span>Cycle Wave Week</span>
-          <span class="tag" id="current-week-tag">Week 1</span>
+          <span class="tag" id="current-week-tag">Week 1 (3 RIR)</span>
         </h2>
         <div class="week-selector">
           <button class="week-btn active" onclick="setWeek(1)">Wk 1 (3 RIR)</button>
@@ -454,7 +473,8 @@
       currentWeek: 1,
       currentDay: 1,
       oneRMs: { bench: 250, squat: 315, deadlift: 350, ohp: 135 },
-      logs: {}
+      logs: {},
+      notes: {}
     };
 
     const wavePercentages = {
@@ -558,7 +578,8 @@
       document.querySelectorAll('.week-btn').forEach((b, i) => {
         b.classList.toggle('active', (i + 1) === w);
       });
-      document.getElementById('current-week-tag').innerText = w === 4 ? 'Deload' : `Week ${w}`;
+      const weekTitles = { 1: 'Week 1 (3 RIR)', 2: 'Week 2 (2 RIR)', 3: 'Week 3 (1 RIR)', 4: 'Deload' };
+      document.getElementById('current-week-tag').innerText = weekTitles[w];
       renderWorkout();
       saveState();
     }
@@ -582,8 +603,19 @@
       state.oneRMs.squat = parseFloat(document.getElementById('1rm-squat').value) || 0;
       state.oneRMs.deadlift = parseFloat(document.getElementById('1rm-deadlift').value) || 0;
       state.oneRMs.ohp = parseFloat(document.getElementById('1rm-ohp').value) || 0;
+      saveAndRecalculateNotes();
       saveState();
       renderWorkout();
+    }
+
+    function saveNote(val) {
+      const noteKey = `w${state.currentWeek}_d${state.currentDay}_note`;
+      state.notes[noteKey] = val;
+      saveState();
+    }
+
+    function saveAndRecalculateNotes() {
+      saveState();
     }
 
     function renderWorkout() {
@@ -673,6 +705,11 @@
         html += `<div class="section-title">Conditioning Protocol</div>
                  <div class="calc-box"><strong>Active Protocol:</strong> ${dayData.cardio}</div>`;
       }
+
+      const noteKey = `w${week}_d${state.currentDay}_note`;
+      const currentNote = state.notes[noteKey] || '';
+      html += `<div class="section-title">Session Notes &amp; RPE</div>
+               <textarea class="notes-area" placeholder="Log session RPE, notes, or adjustments..." oninput="saveNote(this.value)">${currentNote}</textarea>`;
 
       html += `</div>`;
       container.innerHTML = html;

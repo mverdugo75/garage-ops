@@ -141,7 +141,6 @@
       border-color: var(--accent);
     }
 
-    /* Redesigned Set Cards */
     .progress-bar-wrap {
       background: var(--input-bg);
       height: 8px;
@@ -158,31 +157,59 @@
       transition: width 0.3s ease;
     }
 
+    /* Section Headings inside Workout */
+    .section-title {
+      font-size: 0.8rem;
+      font-weight: 900;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin: 16px 0 8px 0;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 4px;
+    }
+
+    /* Exercise Card */
     .exercise-card {
       background: var(--input-bg);
       border: 1px solid var(--card-border);
       border-radius: 10px;
-      padding: 16px;
-      margin-bottom: 16px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+
+    .superset-box {
+      border: 1px dashed #3b4256;
+      background: #11131a;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+
+    .superset-header {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: #38bdf8;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
     }
 
     .exercise-title-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
-      border-bottom: 1px solid var(--card-border);
-      padding-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     .exercise-name {
-      font-size: 1.05rem;
+      font-size: 0.95rem;
       font-weight: 800;
       color: #fff;
     }
 
     .exercise-1rm {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: var(--text-dim);
       background: #181b24;
       padding: 2px 8px;
@@ -191,19 +218,19 @@
 
     .set-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 8px;
     }
 
     .set-box {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 8px;
-      padding: 10px;
+      padding: 8px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
       cursor: pointer;
       user-select: none;
       transition: all 0.2s ease;
@@ -219,14 +246,14 @@
     }
 
     .set-label {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       font-weight: 800;
       color: var(--text-dim);
       text-transform: uppercase;
     }
 
     .set-weight {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: 900;
       color: var(--accent);
     }
@@ -236,7 +263,7 @@
     }
 
     .set-reps {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 700;
       color: var(--text);
     }
@@ -293,19 +320,7 @@
       padding: 12px;
       border-radius: 0 8px 8px 0;
       margin-top: 8px;
-    }
-
-    .calc-box div {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 4px;
       font-size: 0.85rem;
-    }
-
-    .note {
-      font-size: 0.8rem;
-      color: var(--text-dim);
-      margin-top: 8px;
       line-height: 1.4;
     }
   </style>
@@ -363,32 +378,12 @@
     <div id="tab-calculator" class="tab-content">
       <div class="card">
         <h2>Main Lifts 1RM Input (lbs)</h2>
-        <div class="note" style="margin-bottom:12px;">Enter your estimated 1RM for each lift to auto-generate set target loads in your Daily Log.</div>
+        <div class="calc-box" style="margin-bottom:12px;">Enter your estimated 1RM for each lift to auto-generate set target loads in your Daily Log.</div>
         <div class="form-grid">
-          <div class="form-group">
-            <label>Bench Press 1RM</label>
-            <input type="number" id="1rm-bench" value="250" oninput="saveAndRecalculate()">
-          </div>
-          <div class="form-group">
-            <label>Barbell Row 1RM</label>
-            <input type="number" id="1rm-row" value="180" oninput="saveAndRecalculate()">
-          </div>
-          <div class="form-group">
-            <label>Back Squat 1RM</label>
-            <input type="number" id="1rm-squat" value="315" oninput="saveAndRecalculate()">
-          </div>
-          <div class="form-group">
-            <label>Romanian Deadlift 1RM</label>
-            <input type="number" id="1rm-rdl" value="225" oninput="saveAndRecalculate()">
-          </div>
-          <div class="form-group">
-            <label>Overhead Press 1RM</label>
-            <input type="number" id="1rm-ohp" value="135" oninput="saveAndRecalculate()">
-          </div>
-          <div class="form-group">
-            <label>Deadlift 1RM</label>
-            <input type="number" id="1rm-deadlift" value="350" oninput="saveAndRecalculate()">
-          </div>
+          <div class="form-group"><label>Bench Press 1RM</label><input type="number" id="1rm-bench" value="250" oninput="saveAndRecalculate()"></div>
+          <div class="form-group"><label>Back Squat 1RM</label><input type="number" id="1rm-squat" value="315" oninput="saveAndRecalculate()"></div>
+          <div class="form-group"><label>Overhead Press 1RM</label><input type="number" id="1rm-ohp" value="135" oninput="saveAndRecalculate()"></div>
+          <div class="form-group"><label>Deadlift 1RM</label><input type="number" id="1rm-deadlift" value="350" oninput="saveAndRecalculate()"></div>
         </div>
       </div>
     </div>
@@ -398,14 +393,8 @@
       <div class="card">
         <h2>Zone 2 Target Heart Rate Calculator</h2>
         <div class="form-grid">
-          <div class="form-group">
-            <label>Your Age</label>
-            <input type="number" id="user-age" value="30" oninput="calculateHR()">
-          </div>
-          <div class="form-group">
-            <label>Resting Heart Rate (BPM)</label>
-            <input type="number" id="user-rhr" value="65" oninput="calculateHR()">
-          </div>
+          <div class="form-group"><label>Your Age</label><input type="number" id="user-age" value="30" oninput="calculateHR()"></div>
+          <div class="form-group"><label>Resting Heart Rate (BPM)</label><input type="number" id="user-rhr" value="65" oninput="calculateHR()"></div>
         </div>
         <div class="calc-box">
           <div><span>Estimated Max HR:</span> <strong id="hr-max">190 BPM</strong></div>
@@ -431,7 +420,7 @@
     let state = {
       currentWeek: 1,
       currentDay: 1,
-      oneRMs: { bench: 250, row: 180, squat: 315, rdl: 225, ohp: 135, deadlift: 350 },
+      oneRMs: { bench: 250, squat: 315, ohp: 135, deadlift: 350 },
       logs: {}
     };
 
@@ -450,11 +439,32 @@
     };
 
     const dayTemplates = {
-      1: { title: "Day 1: Upper Body Strength", tag: "BARBELL / RACK", lifts: [{ key: 'bench', name: 'Bench Press' }, { key: 'row', name: 'Barbell Row' }] },
+      1: {
+        title: "Day 1: Upper Body Strength", tag: "BARBELL / RACK",
+        mainLift: { key: 'bench', name: 'Standalone Main: Bench Press' },
+        supersets: [
+          { name: "Superset A", ex1: "Incline DB Press (3x10)", ex2: "DB Rows (3x10)" },
+          { name: "Superset B", ex1: "DB Lateral Raises (3x12)", ex2: "DB Hammer Curls (3x12)" }
+        ]
+      },
       2: { title: "Day 2: Zone 2 Aerobic Base", tag: "JOGGING STROLLER", cardio: "40-50 min Stroller Walk/Jog @ 60-70% Max HR" },
-      3: { title: "Day 3: Lower Body Strength", tag: "BARBELL / RACK", lifts: [{ key: 'squat', name: 'Back Squat' }, { key: 'rdl', name: 'Romanian Deadlift' }] },
+      3: {
+        title: "Day 3: Lower Body Strength", tag: "BARBELL / RACK",
+        mainLift: { key: 'squat', name: 'Standalone Main: Back Squat' },
+        supersets: [
+          { name: "Superset A", ex1: "Romanian Deadlifts (3x8)", ex2: "Walking Lunges (3x10/leg)" },
+          { name: "Superset B", ex1: "Calf Raises (3x15)", ex2: "Hanging Leg Raises (3x12)" }
+        ]
+      },
       4: { title: "Day 4: Zone 2 Aerobic Base", tag: "JOGGING STROLLER / RUN", cardio: "45 min Steady Track Loops or Outdoor Route" },
-      5: { title: "Day 5: Full Body Strength", tag: "BARBELL / VEST", lifts: [{ key: 'ohp', name: 'Overhead Press' }, { key: 'deadlift', name: 'Deadlift' }] },
+      5: {
+        title: "Day 5: Full Body Strength", tag: "BARBELL / VEST",
+        mainLift: { key: 'ohp', name: 'Standalone Main: Overhead Press' },
+        supersets: [
+          { name: "Superset A", ex1: "Weighted Pull-ups / Lat Pulldowns (3x8)", ex2: "Dips / Push-ups with Vest (3x12)" },
+          { name: "Superset B", ex1: "Barbell Curls (3x10)", ex2: "Triceps Pushdowns (3x12)" }
+        ]
+      },
       6: { title: "Weekend: Active Recovery", tag: "RUCK", cardio: "45-60 min Steady Hike/Walk with moderate load" }
     };
 
@@ -463,9 +473,7 @@
       if (saved) {
         state = JSON.parse(saved);
         document.getElementById('1rm-bench').value = state.oneRMs.bench || 250;
-        document.getElementById('1rm-row').value = state.oneRMs.row || 180;
         document.getElementById('1rm-squat').value = state.oneRMs.squat || 315;
-        document.getElementById('1rm-rdl').value = state.oneRMs.rdl || 225;
         document.getElementById('1rm-ohp').value = state.oneRMs.ohp || 135;
         document.getElementById('1rm-deadlift').value = state.oneRMs.deadlift || 350;
       }
@@ -510,9 +518,7 @@
 
     function saveAndRecalculate() {
       state.oneRMs.bench = parseFloat(document.getElementById('1rm-bench').value) || 0;
-      state.oneRMs.row = parseFloat(document.getElementById('1rm-row').value) || 0;
       state.oneRMs.squat = parseFloat(document.getElementById('1rm-squat').value) || 0;
-      state.oneRMs.rdl = parseFloat(document.getElementById('1rm-rdl').value) || 0;
       state.oneRMs.ohp = parseFloat(document.getElementById('1rm-ohp').value) || 0;
       state.oneRMs.deadlift = parseFloat(document.getElementById('1rm-deadlift').value) || 0;
       saveState();
@@ -532,41 +538,50 @@
       if (dayData.cardio) {
         html += `<div class="calc-box"><strong>Target Protocol:</strong> ${dayData.cardio}</div>`;
       } else {
-        dayData.lifts.forEach(lift => {
-          const base1RM = state.oneRMs[lift.key] || 0;
-          const pcts = wavePercentages[week];
-          const reps = waveReps[week];
+        // Main Standalone Lift
+        html += `<div class="section-title">Standalone Primary Wave Lift</div>`;
+        const lift = dayData.mainLift;
+        const base1RM = state.oneRMs[lift.key] || 0;
+        const pcts = wavePercentages[week];
+        const reps = waveReps[week];
 
-          html += `<div class="exercise-card">
-            <div class="exercise-title-row">
-              <span class="exercise-name">${lift.name}</span>
-              <span class="exercise-1rm">1RM: ${base1RM} lbs</span>
-            </div>
-            <div class="set-grid">`;
+        html += `<div class="exercise-card">
+          <div class="exercise-title-row">
+            <span class="exercise-name">${lift.name}</span>
+            <span class="exercise-1rm">1RM: ${base1RM} lbs</span>
+          </div>
+          <div class="set-grid">`;
 
-          pcts.forEach((pct, idx) => {
-            totalSets++;
-            const targetWeight = roundToFive(base1RM * pct);
-            const repCount = reps[idx];
-            const logKey = `w${week}_d${state.currentDay}_${lift.key}_s${idx}`;
-            const isDone = state.logs[logKey];
-            if (isDone) completedSets++;
+        pcts.forEach((pct, idx) => {
+          totalSets++;
+          const targetWeight = roundToFive(base1RM * pct);
+          const repCount = reps[idx];
+          const logKey = `w${week}_d${state.currentDay}_${lift.key}_s${idx}`;
+          const isDone = state.logs[logKey];
+          if (isDone) completedSets++;
 
-            html += `<div class="set-box ${isDone ? 'completed' : ''}" onclick="toggleSet('${logKey}')">
-              <span class="set-label">Set ${idx + 1}</span>
-              <span class="set-weight">${targetWeight} <span style="font-size:0.7rem; color:var(--text-dim)">lbs</span></span>
-              <span class="set-reps">${repCount} Reps</span>
-            </div>`;
-          });
+          html += `<div class="set-box ${isDone ? 'completed' : ''}" onclick="toggleSet('${logKey}')">
+            <span class="set-label">Set ${idx + 1}</span>
+            <span class="set-weight">${targetWeight} <span style="font-size:0.6rem; color:var(--text-dim)">lbs</span></span>
+            <span class="set-reps">${repCount} Reps</span>
+          </div>`;
+        });
+        html += `</div></div>`;
 
-          html += `</div></div>`;
+        // Supersetted Accessories
+        html += `<div class="section-title">Accessory Supersets</div>`;
+        dayData.supersets.forEach((sup, sIdx) => {
+          html += `<div class="superset-box">
+            <div class="superset-header">${sup.name} (Alternate Exercises)</div>
+            <div style="font-size:0.85rem; color:#e2e8f0; margin-bottom:4px;">• <strong>A1:</strong> ${sup.ex1}</div>
+            <div style="font-size:0.85rem; color:#e2e8f0;">• <strong>A2:</strong> ${sup.ex2}</div>
+          </div>`;
         });
       }
 
       html += `</div>`;
       container.innerHTML = html;
 
-      // Update progress bar
       const pctComplete = totalSets > 0 ? (completedSets / totalSets) * 100 : 100;
       document.getElementById('daily-progress').style.width = pctComplete + '%';
     }

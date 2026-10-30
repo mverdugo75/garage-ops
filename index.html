@@ -67,7 +67,6 @@
       font-size: 0.85rem;
     }
 
-    /* Navigation Tabs */
     .nav-tabs {
       display: flex;
       gap: 8px;
@@ -157,7 +156,6 @@
       transition: width 0.3s ease;
     }
 
-    /* Section Headings */
     .section-title {
       font-size: 0.8rem;
       font-weight: 900;
@@ -169,7 +167,6 @@
       padding-bottom: 4px;
     }
 
-    /* Exercise Card */
     .exercise-card {
       background: var(--input-bg);
       border: 1px solid var(--card-border);
@@ -216,7 +213,6 @@
       border-radius: 4px;
     }
 
-    /* Linear Set Stack */
     .set-stack {
       display: flex;
       flex-direction: column;
@@ -306,7 +302,6 @@
       text-transform: uppercase;
     }
 
-    /* Forms */
     .form-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -361,7 +356,6 @@
       <div class="subtitle">Barbell Wave Strength + Zone 2 Aerobic Conditioning</div>
     </header>
 
-    <!-- Navigation Tabs -->
     <div class="nav-tabs">
       <button class="tab-btn active" onclick="switchTab('daily')">Daily Log</button>
       <button class="tab-btn" onclick="switchTab('calculator')">1RM &amp; Wave Calc</button>
@@ -387,7 +381,6 @@
         </div>
       </div>
 
-      <!-- Day Selector -->
       <div class="nav-tabs">
         <button class="tab-btn active" id="day-btn-1" onclick="switchDay(1)">Day 1</button>
         <button class="tab-btn" id="day-btn-2" onclick="switchDay(2)">Day 2</button>
@@ -397,20 +390,19 @@
         <button class="tab-btn" id="day-btn-6" onclick="switchDay(6)">Weekend</button>
       </div>
 
-      <!-- Day Workouts Container -->
       <div id="day-workout-content"></div>
     </div>
 
     <!-- TAB 2: WAVE CALCULATOR -->
     <div id="tab-calculator" class="tab-content">
       <div class="card">
-        <h2>Main Lifts 1RM Input (lbs)</h2>
-        <div class="calc-box" style="margin-bottom:12px;">Enter your estimated 1RM for each lift to auto-generate set target loads in your Daily Log.</div>
+        <h2>Big 4 Lifts 1RM Input (lbs)</h2>
+        <div class="calc-box" style="margin-bottom:12px;">Enter your 1RM for each lift to auto-generate exact working loads in your Daily Log.</div>
         <div class="form-grid">
           <div class="form-group"><label>Bench Press 1RM</label><input type="number" id="1rm-bench" value="250" oninput="saveAndRecalculate()"></div>
           <div class="form-group"><label>Back Squat 1RM</label><input type="number" id="1rm-squat" value="315" oninput="saveAndRecalculate()"></div>
-          <div class="form-group"><label>Overhead Press 1RM</label><input type="number" id="1rm-ohp" value="135" oninput="saveAndRecalculate()"></div>
           <div class="form-group"><label>Deadlift 1RM</label><input type="number" id="1rm-deadlift" value="350" oninput="saveAndRecalculate()"></div>
+          <div class="form-group"><label>Overhead Press 1RM</label><input type="number" id="1rm-ohp" value="135" oninput="saveAndRecalculate()"></div>
         </div>
       </div>
     </div>
@@ -447,7 +439,7 @@
     let state = {
       currentWeek: 1,
       currentDay: 1,
-      oneRMs: { bench: 250, squat: 315, ohp: 135, deadlift: 350 },
+      oneRMs: { bench: 250, squat: 315, deadlift: 350, ohp: 135 },
       logs: {}
     };
 
@@ -467,8 +459,8 @@
 
     const dayTemplates = {
       1: {
-        title: "Day 1: Upper Body Strength", tag: "BARBELL / RACK",
-        mainLift: { key: 'bench', name: 'Standalone Main: Bench Press' },
+        title: "Day 1: Upper Body Push / Pull", tag: "BARBELL / RACK",
+        mainLifts: [{ key: 'bench', name: 'Standalone Main: Bench Press' }],
         supersets: [
           {
             name: "Superset A",
@@ -484,8 +476,8 @@
       },
       2: { title: "Day 2: Zone 2 Aerobic Base", tag: "JOGGING STROLLER", cardio: "40-50 min Stroller Walk/Jog @ 60-70% Max HR" },
       3: {
-        title: "Day 3: Lower Body Strength", tag: "BARBELL / RACK",
-        mainLift: { key: 'squat', name: 'Standalone Main: Back Squat' },
+        title: "Day 3: Lower Body Squat Focus", tag: "BARBELL / RACK",
+        mainLifts: [{ key: 'squat', name: 'Standalone Main: Back Squat' }],
         supersets: [
           {
             name: "Superset A",
@@ -501,8 +493,8 @@
       },
       4: { title: "Day 4: Zone 2 Aerobic Base", tag: "JOGGING STROLLER / RUN", cardio: "45 min Steady Track Loops or Outdoor Route" },
       5: {
-        title: "Day 5: Full Body Strength", tag: "BARBELL / VEST",
-        mainLift: { key: 'ohp', name: 'Standalone Main: Overhead Press' },
+        title: "Day 5: Heavy Deadlift & Pulling", tag: "BARBELL / RACK",
+        mainLifts: [{ key: 'deadlift', name: 'Standalone Main: Conventional Deadlift' }],
         supersets: [
           {
             name: "Superset A",
@@ -516,7 +508,11 @@
           }
         ]
       },
-      6: { title: "Weekend: Active Recovery", tag: "RUCK", cardio: "45-60 min Steady Hike/Walk with moderate load" }
+      6: {
+        title: "Weekend: Press & Outdoor Ruck", tag: "BARBELL + RUCK",
+        mainLifts: [{ key: 'ohp', name: 'Standalone Main: Overhead Press' }],
+        cardio: "45-60 min Outdoor Ruck / Hike with moderate load after pressing wave."
+      }
     };
 
     function init() {
@@ -525,8 +521,8 @@
         state = JSON.parse(saved);
         document.getElementById('1rm-bench').value = state.oneRMs.bench || 250;
         document.getElementById('1rm-squat').value = state.oneRMs.squat || 315;
-        document.getElementById('1rm-ohp').value = state.oneRMs.ohp || 135;
         document.getElementById('1rm-deadlift').value = state.oneRMs.deadlift || 350;
+        document.getElementById('1rm-ohp').value = state.oneRMs.ohp || 135;
       }
       calculateHR();
       renderWorkout();
@@ -570,8 +566,8 @@
     function saveAndRecalculate() {
       state.oneRMs.bench = parseFloat(document.getElementById('1rm-bench').value) || 0;
       state.oneRMs.squat = parseFloat(document.getElementById('1rm-squat').value) || 0;
-      state.oneRMs.ohp = parseFloat(document.getElementById('1rm-ohp').value) || 0;
       state.oneRMs.deadlift = parseFloat(document.getElementById('1rm-deadlift').value) || 0;
+      state.oneRMs.ohp = parseFloat(document.getElementById('1rm-ohp').value) || 0;
       saveState();
       renderWorkout();
     }
@@ -586,45 +582,44 @@
       let html = `<div class="card">
         <h2><span>${dayData.title}</span> <span class="tag">${dayData.tag}</span></h2>`;
 
-      if (dayData.cardio) {
-        html += `<div class="calc-box"><strong>Target Protocol:</strong> ${dayData.cardio}</div>`;
-      } else {
-        // Main Standalone Wave Lift
+      if (dayData.mainLifts) {
         html += `<div class="section-title">Standalone Primary Wave Lift</div>`;
-        const lift = dayData.mainLift;
-        const base1RM = state.oneRMs[lift.key] || 0;
-        const pcts = wavePercentages[week];
-        const reps = waveReps[week];
+        dayData.mainLifts.forEach(lift => {
+          const base1RM = state.oneRMs[lift.key] || 0;
+          const pcts = wavePercentages[week];
+          const reps = waveReps[week];
 
-        html += `<div class="exercise-card">
-          <div class="exercise-title-row">
-            <span class="exercise-name">${lift.name}</span>
-            <span class="exercise-1rm">1RM: ${base1RM} lbs</span>
-          </div>
-          <div class="set-stack">`;
-
-        pcts.forEach((pct, idx) => {
-          totalSets++;
-          const targetWeight = roundToFive(base1RM * pct);
-          const repCount = reps[idx];
-          const logKey = `w${week}_d${state.currentDay}_${lift.key}_s${idx}`;
-          const isDone = state.logs[logKey];
-          if (isDone) completedSets++;
-
-          html += `<div class="set-row ${isDone ? 'completed' : ''}" onclick="toggleSet('${logKey}')">
-            <div class="set-info">
-              <span class="set-num">Set ${idx + 1}</span>
-              <span class="set-weight-tag">${targetWeight} <span style="font-size:0.7rem; color:var(--text-dim)">lbs</span></span>
+          html += `<div class="exercise-card">
+            <div class="exercise-title-row">
+              <span class="exercise-name">${lift.name}</span>
+              <span class="exercise-1rm">1RM: ${base1RM} lbs</span>
             </div>
-            <div class="set-info">
-              <span class="set-reps-tag">${repCount} Reps</span>
-              <div class="check-indicator">✓</div>
-            </div>
-          </div>`;
+            <div class="set-stack">`;
+
+          pcts.forEach((pct, idx) => {
+            totalSets++;
+            const targetWeight = roundToFive(base1RM * pct);
+            const repCount = reps[idx];
+            const logKey = `w${week}_d${state.currentDay}_${lift.key}_s${idx}`;
+            const isDone = state.logs[logKey];
+            if (isDone) completedSets++;
+
+            html += `<div class="set-row ${isDone ? 'completed' : ''}" onclick="toggleSet('${logKey}')">
+              <div class="set-info">
+                <span class="set-num">Set ${idx + 1}</span>
+                <span class="set-weight-tag">${targetWeight} <span style="font-size:0.7rem; color:var(--text-dim)">lbs</span></span>
+              </div>
+              <div class="set-info">
+                <span class="set-reps-tag">${repCount} Reps</span>
+                <div class="check-indicator">✓</div>
+              </div>
+            </div>`;
+          });
+          html += `</div></div>`;
         });
-        html += `</div></div>`;
+      }
 
-        // Mandatory Accessory Supersets
+      if (dayData.supersets) {
         html += `<div class="section-title">Mandatory Accessory Supersets</div>`;
         dayData.supersets.forEach((sup, sIdx) => {
           html += `<div class="superset-card">
@@ -658,6 +653,11 @@
 
           html += `</div>`;
         });
+      }
+
+      if (dayData.cardio) {
+        html += `<div class="section-title">Conditioning Protocol</div>
+                 <div class="calc-box"><strong>Active Protocol:</strong> ${dayData.cardio}</div>`;
       }
 
       html += `</div>`;

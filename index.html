@@ -7,15 +7,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0f1015;
-      --card-bg: #181a20;
-      --card-border: #262933;
-      --text: #e2e8f0;
-      --text-dim: #8a94a6;
+      --bg: #0b0c10;
+      --card-bg: #151821;
+      --card-border: #232736;
+      --text: #f1f5f9;
+      --text-dim: #94a3b8;
       --accent: #ff4500;
-      --accent-hover: #ff571a;
+      --accent-glow: rgba(255, 69, 0, 0.2);
       --success: #10b981;
-      --input-bg: #121318;
+      --success-glow: rgba(16, 185, 129, 0.15);
+      --input-bg: #0d0f14;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -35,13 +36,15 @@
       max-width: 800px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 16px;
     }
 
     header {
       text-align: center;
-      padding: 10px 0;
+      padding: 12px 0;
       border-bottom: 2px solid var(--accent);
+      background: linear-gradient(180deg, rgba(255,69,0,0.05) 0%, rgba(0,0,0,0) 100%);
+      border-radius: 12px 12px 0 0;
     }
 
     .badge {
@@ -53,7 +56,7 @@
     }
 
     h1 {
-      font-size: 2.2rem;
+      font-size: 2.4rem;
       font-weight: 900;
       letter-spacing: -1px;
       margin: 4px 0;
@@ -91,6 +94,7 @@
       background: var(--accent);
       color: #ffffff;
       border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
     }
 
     .tab-content { display: none; }
@@ -123,55 +127,118 @@
       background: var(--input-bg);
       border: 1px solid var(--card-border);
       color: var(--text-dim);
-      padding: 8px;
-      border-radius: 6px;
+      padding: 10px;
+      border-radius: 8px;
       font-weight: 700;
       font-size: 0.8rem;
       cursor: pointer;
+      transition: all 0.2s;
     }
 
     .week-btn.active {
-      background: #282c37;
+      background: #1f2430;
       color: var(--accent);
       border-color: var(--accent);
     }
 
-    /* Workout Log Checklist */
-    .exercise-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+    /* Redesigned Set Cards */
+    .progress-bar-wrap {
+      background: var(--input-bg);
+      height: 8px;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      border: 1px solid var(--card-border);
     }
 
-    .exercise-item {
+    .progress-bar-fill {
+      background: var(--accent);
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .exercise-card {
       background: var(--input-bg);
       border: 1px solid var(--card-border);
-      border-radius: 8px;
-      padding: 12px;
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 16px;
     }
 
-    .exercise-header {
+    .exercise-title-row {
       display: flex;
       justify-content: space-between;
-      font-weight: 700;
-      font-size: 0.95rem;
-      margin-bottom: 8px;
-    }
-
-    .set-row {
-      display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 6px 0;
-      border-top: 1px solid #1f222e;
-      font-size: 0.85rem;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 8px;
     }
 
-    .set-check {
-      width: 20px;
-      height: 20px;
-      accent-color: var(--accent);
+    .exercise-name {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .exercise-1rm {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      background: #181b24;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .set-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+    }
+
+    .set-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
       cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
+
+    .set-box:hover {
+      border-color: var(--accent);
+    }
+
+    .set-box.completed {
+      background: var(--success-glow);
+      border-color: var(--success);
+    }
+
+    .set-label {
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+
+    .set-weight {
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .set-box.completed .set-weight {
+      color: var(--success);
+    }
+
+    .set-reps {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text);
     }
 
     .tag {
@@ -185,7 +252,7 @@
       text-transform: uppercase;
     }
 
-    /* Input Forms */
+    /* Forms */
     .form-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -235,8 +302,6 @@
       font-size: 0.85rem;
     }
 
-    .calc-box div:last-child { margin-bottom: 0; }
-
     .note {
       font-size: 0.8rem;
       color: var(--text-dim);
@@ -249,9 +314,9 @@
 
   <div class="app-container">
     <header>
-      <div class="badge">Hybrid Protocol</div>
+      <div class="badge">Tactical Protocol</div>
       <h1>GARAGE OPS</h1>
-      <div class="subtitle">Barbell Wave Strength + Zone 2 Cardio Integration</div>
+      <div class="subtitle">Barbell Wave Strength + Zone 2 Aerobic Conditioning</div>
     </header>
 
     <!-- Navigation Tabs -->
@@ -275,6 +340,9 @@
           <button class="week-btn" onclick="setWeek(3)">Wk 3 (1 RIR)</button>
           <button class="week-btn" onclick="setWeek(4)">Deload</button>
         </div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="daily-progress"></div>
+        </div>
       </div>
 
       <!-- Day Selector -->
@@ -295,7 +363,7 @@
     <div id="tab-calculator" class="tab-content">
       <div class="card">
         <h2>Main Lifts 1RM Input (lbs)</h2>
-        <div class="note" style="margin-bottom:12px;">Enter your estimated 1RM for each lift. Your working target weights will auto-populate inside the Daily Log!</div>
+        <div class="note" style="margin-bottom:12px;">Enter your estimated 1RM for each lift to auto-generate set target loads in your Daily Log.</div>
         <div class="form-grid">
           <div class="form-group">
             <label>Bench Press 1RM</label>
@@ -323,16 +391,6 @@
           </div>
         </div>
       </div>
-
-      <div class="card">
-        <h2>4-Week Wave Load Percentage Breakdown</h2>
-        <div class="calc-box">
-          <div><span>Week 1 (12-10-8-6 reps):</span> <span>65% / 70% / 75% / 80% 1RM</span></div>
-          <div><span>Week 2 (10-8-6-4 reps):</span> <span>70% / 75% / 80% / 85% 1RM</span></div>
-          <div><span>Week 3 (8-6-4-2 reps):</span> <span>75% / 80% / 85% / 90% 1RM</span></div>
-          <div><span>Deload (4 sets x 5 reps):</span> <span>50% 1RM</span></div>
-        </div>
-      </div>
     </div>
 
     <!-- TAB 3: HR CALCULATOR -->
@@ -354,35 +412,22 @@
           <div><span>Zone 2 Range (Standard 60-70%):</span> <strong id="hr-std" style="color:var(--accent)">114 - 133 BPM</strong></div>
           <div><span>Zone 2 Range (Karvonen HRR):</span> <strong id="hr-karv" style="color:var(--success)">140 - 152 BPM</strong></div>
         </div>
-        <div class="note">Keep stroller runs and rucks within this BPM window to stretch the left ventricle and drive down baseline resting HR.</div>
       </div>
     </div>
 
     <!-- TAB 4: GEAR RULES -->
     <div id="tab-gear" class="tab-content">
       <div class="card">
-        <h2>Gear Rules</h2>
-        <div class="exercise-list">
-          <div class="exercise-item">
-            <div class="exercise-header"><span>Jogging Stroller</span> <span class="tag">Zone 2</span></div>
-            <div class="note">Use on Days 2 &amp; 4. Adds rolling resistance while forcing a steady conversational pace to maximize heart stroke volume.</div>
-          </div>
-          <div class="exercise-item">
-            <div class="exercise-header"><span>Ruck</span> <span class="tag">Active Recovery</span></div>
-            <div class="note">Use for 45-60 min weekend walks. Build posture, trap, and core endurance without leg impact.</div>
-          </div>
-          <div class="exercise-item">
-            <div class="exercise-header"><span>Weighted Vest</span> <span class="tag">Bodyweight Finishers</span></div>
-            <div class="note">Use on upper body or full body days for push-ups and pull-ups. NEVER wear during heavy lower-body squat/deadlift waves.</div>
-          </div>
-        </div>
+        <h2>Gear Operational Guidelines</h2>
+        <div class="calc-box" style="margin-bottom:10px;"><strong>Jogging Stroller:</strong> Use on Days 2 &amp; 4 for steady-state aerobic stroke volume work.</div>
+        <div class="calc-box" style="margin-bottom:10px;"><strong>Ruck:</strong> Weekend active recovery tool for posture and core conditioning.</div>
+        <div class="calc-box"><strong>Weighted Vest:</strong> Reserved for calisthenics finishers. Keep clear of heavy lower-body wave days.</div>
       </div>
     </div>
 
   </div>
 
   <script>
-    // State management
     let state = {
       currentWeek: 1,
       currentDay: 1,
@@ -404,7 +449,6 @@
       4: [5, 5, 5, 5]
     };
 
-    // Day Templates
     const dayTemplates = {
       1: { title: "Day 1: Upper Body Strength", tag: "BARBELL / RACK", lifts: [{ key: 'bench', name: 'Bench Press' }, { key: 'row', name: 'Barbell Row' }] },
       2: { title: "Day 2: Zone 2 Aerobic Base", tag: "JOGGING STROLLER", cardio: "40-50 min Stroller Walk/Jog @ 60-70% Max HR" },
@@ -479,6 +523,8 @@
       const container = document.getElementById('day-workout-content');
       const dayData = dayTemplates[state.currentDay];
       const week = state.currentWeek;
+      let totalSets = 0;
+      let completedSets = 0;
 
       let html = `<div class="card">
         <h2><span>${dayData.title}</span> <span class="tag">${dayData.tag}</span></h2>`;
@@ -486,39 +532,49 @@
       if (dayData.cardio) {
         html += `<div class="calc-box"><strong>Target Protocol:</strong> ${dayData.cardio}</div>`;
       } else {
-        html += `<div class="exercise-list">`;
         dayData.lifts.forEach(lift => {
           const base1RM = state.oneRMs[lift.key] || 0;
           const pcts = wavePercentages[week];
           const reps = waveReps[week];
 
-          html += `<div class="exercise-item">
-            <div class="exercise-header"><span>${lift.name}</span> <span style="color:var(--text-dim); font-size:0.8rem;">1RM: ${base1RM} lbs</span></div>`;
+          html += `<div class="exercise-card">
+            <div class="exercise-title-row">
+              <span class="exercise-name">${lift.name}</span>
+              <span class="exercise-1rm">1RM: ${base1RM} lbs</span>
+            </div>
+            <div class="set-grid">`;
 
           pcts.forEach((pct, idx) => {
+            totalSets++;
             const targetWeight = roundToFive(base1RM * pct);
             const repCount = reps[idx];
             const logKey = `w${week}_d${state.currentDay}_${lift.key}_s${idx}`;
-            const isChecked = state.logs[logKey] ? 'checked' : '';
+            const isDone = state.logs[logKey];
+            if (isDone) completedSets++;
 
-            html += `<div class="set-row">
-              <span>Set ${idx + 1}: <strong>${targetWeight} lbs</strong> × ${repCount} reps</span>
-              <input type="checkbox" class="set-check" ${isChecked} onchange="toggleLog('${logKey}', this.checked)">
+            html += `<div class="set-box ${isDone ? 'completed' : ''}" onclick="toggleSet('${logKey}')">
+              <span class="set-label">Set ${idx + 1}</span>
+              <span class="set-weight">${targetWeight} <span style="font-size:0.7rem; color:var(--text-dim)">lbs</span></span>
+              <span class="set-reps">${repCount} Reps</span>
             </div>`;
           });
 
-          html += `</div>`;
+          html += `</div></div>`;
         });
-        html += `</div>`;
       }
 
       html += `</div>`;
       container.innerHTML = html;
+
+      // Update progress bar
+      const pctComplete = totalSets > 0 ? (completedSets / totalSets) * 100 : 100;
+      document.getElementById('daily-progress').style.width = pctComplete + '%';
     }
 
-    function toggleLog(key, checked) {
-      state.logs[key] = checked;
+    function toggleSet(key) {
+      state.logs[key] = !state.logs[key];
       saveState();
+      renderWorkout();
     }
 
     function calculateHR() {

@@ -157,7 +157,7 @@
       transition: width 0.3s ease;
     }
 
-    /* Section Headings inside Workout */
+    /* Section Headings */
     .section-title {
       font-size: 0.8rem;
       font-weight: 900;
@@ -178,21 +178,21 @@
       margin-bottom: 12px;
     }
 
-    .superset-box {
-      border: 1px dashed #3b4256;
+    .superset-card {
       background: #11131a;
-      padding: 12px;
-      border-radius: 8px;
+      border: 1px dashed #38bdf8;
+      border-radius: 10px;
+      padding: 14px;
       margin-bottom: 12px;
     }
 
     .superset-header {
-      font-size: 0.75rem;
-      font-weight: 800;
+      font-size: 0.8rem;
+      font-weight: 900;
       color: #38bdf8;
       text-transform: uppercase;
-      margin-bottom: 8px;
-      letter-spacing: 1px;
+      margin-bottom: 12px;
+      letter-spacing: 1.5px;
     }
 
     .exercise-title-row {
@@ -216,56 +216,83 @@
       border-radius: 4px;
     }
 
-    .set-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    /* Linear Set Stack */
+    .set-stack {
+      display: flex;
+      flex-direction: column;
       gap: 8px;
     }
 
-    .set-box {
+    .set-row {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 8px;
-      padding: 8px;
+      padding: 10px 14px;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 4px;
+      justify-content: space-between;
       cursor: pointer;
       user-select: none;
       transition: all 0.2s ease;
     }
 
-    .set-box:hover {
+    .set-row:hover {
       border-color: var(--accent);
     }
 
-    .set-box.completed {
+    .set-row.completed {
       background: var(--success-glow);
       border-color: var(--success);
     }
 
-    .set-label {
-      font-size: 0.65rem;
+    .set-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .set-num {
+      font-size: 0.75rem;
       font-weight: 800;
       color: var(--text-dim);
       text-transform: uppercase;
+      width: 45px;
     }
 
-    .set-weight {
-      font-size: 1.1rem;
+    .set-weight-tag {
+      font-size: 1.05rem;
       font-weight: 900;
       color: var(--accent);
     }
 
-    .set-box.completed .set-weight {
+    .set-row.completed .set-weight-tag {
       color: var(--success);
     }
 
-    .set-reps {
-      font-size: 0.75rem;
+    .set-reps-tag {
+      font-size: 0.85rem;
       font-weight: 700;
       color: var(--text);
+    }
+
+    .check-indicator {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      border: 2px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 900;
+      color: transparent;
+      transition: all 0.2s;
+    }
+
+    .set-row.completed .check-indicator {
+      background: var(--success);
+      border-color: var(--success);
+      color: #000;
     }
 
     .tag {
@@ -443,8 +470,16 @@
         title: "Day 1: Upper Body Strength", tag: "BARBELL / RACK",
         mainLift: { key: 'bench', name: 'Standalone Main: Bench Press' },
         supersets: [
-          { name: "Superset A", ex1: "Incline DB Press (3x10)", ex2: "DB Rows (3x10)" },
-          { name: "Superset B", ex1: "DB Lateral Raises (3x12)", ex2: "DB Hammer Curls (3x12)" }
+          {
+            name: "Superset A",
+            ex1: { key: 'incline_db', name: 'Incline DB Press', sets: 3, reps: 10 },
+            ex2: { key: 'db_row', name: 'DB Rows', sets: 3, reps: 10 }
+          },
+          {
+            name: "Superset B",
+            ex1: { key: 'lat_raise', name: 'DB Lateral Raises', sets: 3, reps: 12 },
+            ex2: { key: 'hammer_curl', name: 'DB Hammer Curls', sets: 3, reps: 12 }
+          }
         ]
       },
       2: { title: "Day 2: Zone 2 Aerobic Base", tag: "JOGGING STROLLER", cardio: "40-50 min Stroller Walk/Jog @ 60-70% Max HR" },
@@ -452,8 +487,16 @@
         title: "Day 3: Lower Body Strength", tag: "BARBELL / RACK",
         mainLift: { key: 'squat', name: 'Standalone Main: Back Squat' },
         supersets: [
-          { name: "Superset A", ex1: "Romanian Deadlifts (3x8)", ex2: "Walking Lunges (3x10/leg)" },
-          { name: "Superset B", ex1: "Calf Raises (3x15)", ex2: "Hanging Leg Raises (3x12)" }
+          {
+            name: "Superset A",
+            ex1: { key: 'rdl_acc', name: 'Romanian Deadlifts', sets: 3, reps: 8 },
+            ex2: { key: 'lunges', name: 'Walking Lunges', sets: 3, reps: '10/leg' }
+          },
+          {
+            name: "Superset B",
+            ex1: { key: 'calves', name: 'Calf Raises', sets: 3, reps: 15 },
+            ex2: { key: 'leg_raises', name: 'Hanging Leg Raises', sets: 3, reps: 12 }
+          }
         ]
       },
       4: { title: "Day 4: Zone 2 Aerobic Base", tag: "JOGGING STROLLER / RUN", cardio: "45 min Steady Track Loops or Outdoor Route" },
@@ -461,8 +504,16 @@
         title: "Day 5: Full Body Strength", tag: "BARBELL / VEST",
         mainLift: { key: 'ohp', name: 'Standalone Main: Overhead Press' },
         supersets: [
-          { name: "Superset A", ex1: "Weighted Pull-ups / Lat Pulldowns (3x8)", ex2: "Dips / Push-ups with Vest (3x12)" },
-          { name: "Superset B", ex1: "Barbell Curls (3x10)", ex2: "Triceps Pushdowns (3x12)" }
+          {
+            name: "Superset A",
+            ex1: { key: 'pullups', name: 'Weighted Pull-ups / Lat Pulldowns', sets: 3, reps: 8 },
+            ex2: { key: 'dips_vest', name: 'Dips / Push-ups with Vest', sets: 3, reps: 12 }
+          },
+          {
+            name: "Superset B",
+            ex1: { key: 'bb_curl', name: 'Barbell Curls', sets: 3, reps: 10 },
+            ex2: { key: 'tricep_pushdown', name: 'Triceps Pushdowns', sets: 3, reps: 12 }
+          }
         ]
       },
       6: { title: "Weekend: Active Recovery", tag: "RUCK", cardio: "45-60 min Steady Hike/Walk with moderate load" }
@@ -538,7 +589,7 @@
       if (dayData.cardio) {
         html += `<div class="calc-box"><strong>Target Protocol:</strong> ${dayData.cardio}</div>`;
       } else {
-        // Main Standalone Lift
+        // Main Standalone Wave Lift
         html += `<div class="section-title">Standalone Primary Wave Lift</div>`;
         const lift = dayData.mainLift;
         const base1RM = state.oneRMs[lift.key] || 0;
@@ -550,7 +601,7 @@
             <span class="exercise-name">${lift.name}</span>
             <span class="exercise-1rm">1RM: ${base1RM} lbs</span>
           </div>
-          <div class="set-grid">`;
+          <div class="set-stack">`;
 
         pcts.forEach((pct, idx) => {
           totalSets++;
@@ -560,22 +611,52 @@
           const isDone = state.logs[logKey];
           if (isDone) completedSets++;
 
-          html += `<div class="set-box ${isDone ? 'completed' : ''}" onclick="toggleSet('${logKey}')">
-            <span class="set-label">Set ${idx + 1}</span>
-            <span class="set-weight">${targetWeight} <span style="font-size:0.6rem; color:var(--text-dim)">lbs</span></span>
-            <span class="set-reps">${repCount} Reps</span>
+          html += `<div class="set-row ${isDone ? 'completed' : ''}" onclick="toggleSet('${logKey}')">
+            <div class="set-info">
+              <span class="set-num">Set ${idx + 1}</span>
+              <span class="set-weight-tag">${targetWeight} <span style="font-size:0.7rem; color:var(--text-dim)">lbs</span></span>
+            </div>
+            <div class="set-info">
+              <span class="set-reps-tag">${repCount} Reps</span>
+              <div class="check-indicator">✓</div>
+            </div>
           </div>`;
         });
         html += `</div></div>`;
 
-        // Supersetted Accessories
-        html += `<div class="section-title">Accessory Supersets</div>`;
+        // Mandatory Accessory Supersets
+        html += `<div class="section-title">Mandatory Accessory Supersets</div>`;
         dayData.supersets.forEach((sup, sIdx) => {
-          html += `<div class="superset-box">
-            <div class="superset-header">${sup.name} (Alternate Exercises)</div>
-            <div style="font-size:0.85rem; color:#e2e8f0; margin-bottom:4px;">• <strong>A1:</strong> ${sup.ex1}</div>
-            <div style="font-size:0.85rem; color:#e2e8f0;">• <strong>A2:</strong> ${sup.ex2}</div>
-          </div>`;
+          html += `<div class="superset-card">
+            <div class="superset-header">${sup.name}</div>`;
+
+          [sup.ex1, sup.ex2].forEach((ex, exIdx) => {
+            html += `<div style="margin-bottom:12px;">
+              <div class="exercise-title-row" style="margin-bottom:6px;">
+                <span class="exercise-name" style="font-size:0.85rem;">• ${ex.name}</span>
+              </div>
+              <div class="set-stack">`;
+
+            for (let s = 0; s < ex.sets; s++) {
+              totalSets++;
+              const logKey = `w${week}_d${state.currentDay}_sup_${sIdx}_ex${exIdx}_s${s}`;
+              const isDone = state.logs[logKey];
+              if (isDone) completedSets++;
+
+              html += `<div class="set-row ${isDone ? 'completed' : ''}" onclick="toggleSet('${logKey}')">
+                <div class="set-info">
+                  <span class="set-num">Set ${s + 1}</span>
+                </div>
+                <div class="set-info">
+                  <span class="set-reps-tag">${ex.reps} Reps</span>
+                  <div class="check-indicator">✓</div>
+                </div>
+              </div>`;
+            }
+            html += `</div></div>`;
+          });
+
+          html += `</div>`;
         });
       }
 

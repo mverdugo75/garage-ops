@@ -168,7 +168,7 @@
     .week-selector {
       display: flex;
       gap: 6px;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
 
     .week-btn {
@@ -189,6 +189,21 @@
       background: #1f2430;
       color: var(--accent);
       border-color: var(--accent);
+    }
+
+    .protocol-notes {
+      background: var(--input-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 16px;
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    .protocol-notes strong {
+      color: var(--text);
     }
 
     .progress-bar-wrap {
@@ -439,7 +454,7 @@
       <div class="card">
         <h2>
           <span>Cycle Wave Week</span>
-          <span class="tag" id="current-week-tag">Week 1 (3 RIR)</span>
+          <span class="tag" id="current-week-tag">Week 1</span>
         </h2>
         <div class="week-selector">
           <button class="week-btn active" onclick="setWeek(1)">Wk 1 (3 RIR)</button>
@@ -447,6 +462,13 @@
           <button class="week-btn" onclick="setWeek(3)">Wk 3 (1 RIR)</button>
           <button class="week-btn" onclick="setWeek(4)">Deload</button>
         </div>
+        
+        <!-- Dynamic Notes & Warm-up Briefing -->
+        <div class="protocol-notes" id="week-notes-box">
+          <strong>RIR Target:</strong> 3 Reps in Reserve (Focus on clean bar speed &amp; control).<br>
+          <strong>Dynamic Warm-Up (5 Min):</strong> Band pull-aparts (2x15), world's greatest stretch (5/side), empty bar warmup sets.
+        </div>
+
         <div class="progress-bar-wrap">
           <div class="progress-bar-fill" id="daily-progress"></div>
         </div>
@@ -529,6 +551,13 @@
       4: [5, 5, 5, 5]
     };
 
+    const weekNotes = {
+      1: "<strong>RIR Target:</strong> 3 Reps in Reserve (Focus on clean bar speed &amp; control).<br><strong>Dynamic Warm-Up (5 Min):</strong> Band pull-aparts (2x15), world's greatest stretch (5/side), empty bar warmup sets.",
+      2: "<strong>RIR Target:</strong> 2 Reps in Reserve (Moderate fatigue, maintain strict form).<br><strong>Dynamic Warm-Up (5 Min):</strong> Dynamic arm/leg swings, torso rotations, movement-specific warm-up ramp sets.",
+      3: "<strong>RIR Target:</strong> 1 Rep in Reserve (Heavy working sets, maximum focus).<br><strong>Dynamic Warm-Up (5 Min):</strong> CNS activation jumps/planks, lightweight ramp-up sets to working weight.",
+      4: "<strong>RIR Target:</strong> Deload Week (Active recovery, half volume).<br><strong>Dynamic Warm-Up (5 Min):</strong> Light mobility, joint circles, slow steady tempo on working sets."
+    };
+
     const dayTemplates = {
       1: {
         title: "Day 1: Upper Body Push / Pull", tag: "BARBELL / RACK",
@@ -596,6 +625,7 @@
         document.getElementById('1rm-deadlift').value = state.oneRMs.deadlift || 350;
         document.getElementById('1rm-ohp').value = state.oneRMs.ohp || 135;
       }
+      setWeek(state.currentWeek);
       calculateHR();
       renderWorkout();
     }
@@ -616,8 +646,8 @@
       document.querySelectorAll('.week-btn').forEach((b, i) => {
         b.classList.toggle('active', (i + 1) === w);
       });
-      const weekTitles = { 1: 'Week 1 (3 RIR)', 2: 'Week 2 (2 RIR)', 3: 'Week 3 (1 RIR)', 4: 'Deload' };
-      document.getElementById('current-week-tag').innerText = weekTitles[w];
+      document.getElementById('current-week-tag').innerText = w === 4 ? 'Deload' : `Week ${w}`;
+      document.getElementById('week-notes-box').innerHTML = weekNotes[w];
       renderWorkout();
       saveState();
     }
@@ -771,7 +801,7 @@
 
       document.getElementById('hr-max').innerText = `${maxHR} BPM`;
       document.getElementById('hr-std').innerText = `${stdLow} - ${stdHigh} BPM`;
-      document.getElementById('hr-karv').innerText = `${karvLow} - ${karvHigh} BPM`;
+      document.getElementById('hr-karv').innerText = `${karvHigh} BPM`;
     }
 
     window.onload = init;
